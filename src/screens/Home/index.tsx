@@ -2,8 +2,12 @@ import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-
 import { Participant } from '../../components/Participant';
 import { Styles } from './styles';
 
+type ListName = {
+    name: string
+}[]
+
 export function Home() {
-    const participants = [
+    const participants: ListName = [
         {
             name: 'Diego Batista'
         },
@@ -40,11 +44,23 @@ export function Home() {
     ]
 
     function handleParticipantAdd() {
-        Alert.alert('clicou')
+        // if(participants.includes(name)) {
+        //     return Alert.alert(`Este participante já está na lista `)
+        // }
+        Alert.alert(`Você adicionou: `)
     }
 
     function handleParticipantRemove(name: string) {
-        Alert.alert(`Você deletou: ${name}`)
+        Alert.alert("Remover", `Deseja removeu o participante: ${name}?`, [
+            {
+                text: 'Sim',
+                onPress: () => Alert.alert('Deletado')
+            },
+            {
+                text: 'Não',
+                style: 'cancel'
+            }
+        ])
     }
 
     return (
@@ -65,8 +81,8 @@ export function Home() {
             </View>
 
             <FlatList 
-                data={participants}
-                keyExtractor={item => item.name}
+                data={participants ? participants : []}
+                keyExtractor={item => `${item.name}`}
                 renderItem={({item}) => (
                     <Participant 
                         key={item.name}
