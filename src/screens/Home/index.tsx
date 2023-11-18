@@ -1,9 +1,9 @@
-import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Participant } from '../../components/Participant';
 import { Styles } from './styles';
 
 export function Home() {
-    const participantes = [
+    const participants = [
         {
             name: 'Diego Batista'
         },
@@ -64,17 +64,21 @@ export function Home() {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-            >
-                {participantes.map((participant, index) => (
+            <FlatList 
+                data={participants}
+                keyExtractor={item => item.name}
+                renderItem={({item}) => (
                     <Participant 
-                        key={index}
-                        name={participant.name}
-                        onRemove={() => handleParticipantRemove(participant.name)}
+                        key={item.name}
+                        name={item.name}
+                        onRemove={() => handleParticipantRemove(item.name)}
                     />
-                ))}
-            </ScrollView>
+                )}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={() =>(
+                    <Text style={Styles.listEmptyText}>Ainda não existe participantes, adicione a sua lista!</Text>
+                )}
+            />
             
         </View>
     )
