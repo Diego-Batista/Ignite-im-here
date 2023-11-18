@@ -1,11 +1,50 @@
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Participant } from '../../components/Participant';
 import { Styles } from './styles';
 
 export function Home() {
+    const participantes = [
+        {
+            name: 'Diego Batista'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Cicrano de Beltrano'
+        },
+        {
+            name: 'Cicrano de Beltrano'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+        {
+            name: 'Fulano de Tal'
+        },
+    ]
 
     function handleParticipantAdd() {
         Alert.alert('clicou')
+    }
+
+    function handleParticipantRemove(name: string) {
+        Alert.alert(`Você deletou: ${name}`)
     }
 
     return (
@@ -25,8 +64,18 @@ export function Home() {
                 </TouchableOpacity>
             </View>
 
-            <Participant name='Diego Batista'/>
-            <Participant name='Fulano de Tal'/>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+            >
+                {participantes.map((participant, index) => (
+                    <Participant 
+                        key={index}
+                        name={participant.name}
+                        onRemove={() => handleParticipantRemove(participant.name)}
+                    />
+                ))}
+            </ScrollView>
+            
         </View>
     )
 }
