@@ -1,53 +1,21 @@
+import { useState } from 'react';
 import { Alert, FlatList, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Participant } from '../../components/Participant';
 import { Styles } from './styles';
 
-type ListName = {
-    name: string
-}[]
-
 export function Home() {
-    const participants: ListName = [
-        {
-            name: 'Diego Batista'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Cicrano de Beltrano'
-        },
-        {
-            name: 'Cicrano de Beltrano'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-        {
-            name: 'Fulano de Tal'
-        },
-    ]
+    const [participants, setParticipants] = useState<string[]>([])
+    const [name, setName] = useState('')
 
     function handleParticipantAdd() {
-        // if(participants.includes(name)) {
-        //     return Alert.alert(`Este participante já está na lista `)
-        // }
-        Alert.alert(`Você adicionou: `)
+        if(name === '') return Alert.alert('Digite um nome para adicionar a lista de participantes')
+
+        if(participants.includes(name)) {
+            return Alert.alert("Atenção!", `Este participante já está na lista `)
+        }
+        
+        setParticipants(prevState => [...prevState, name])
+        setName('')
     }
 
     function handleParticipantRemove(name: string) {
@@ -73,6 +41,8 @@ export function Home() {
                     style={Styles.input}
                     placeholder='Nome do participante'
                     placeholderTextColor='#6B6B6B'
+                    onChangeText={setName}
+                    value={name}
                 />
 
                 <TouchableOpacity style={Styles.button} onPress={handleParticipantAdd}>
@@ -82,12 +52,12 @@ export function Home() {
 
             <FlatList 
                 data={participants ? participants : []}
-                keyExtractor={item => `${item.name}`}
+                keyExtractor={item => `${item}`}
                 renderItem={({item}) => (
                     <Participant 
-                        key={item.name}
-                        name={item.name}
-                        onRemove={() => handleParticipantRemove(item.name)}
+                        key={item}
+                        name={item}
+                        onRemove={() => handleParticipantRemove(item)}
                     />
                 )}
                 showsVerticalScrollIndicator={false}
